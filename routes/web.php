@@ -22,7 +22,11 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
     $router->post('login', 'AuthController@login');
 
+    $router->group(['middleware'=>['auth:api', 'auth_type:1'],'prefix' => 'admin'], function () use ($router) {
+        $router->get('/pull-products', 'ProductController@pullProducts');
 
+
+    });
 
 
 });
