@@ -25,8 +25,12 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->group(['middleware'=>['auth:api', 'auth_type:1'],'prefix' => 'admin'], function () use ($router) {
         $router->get('/pull-products', 'ProductController@pullProducts');
 
-
     });
 
+    $router->group(['middleware'=>'auth:api'], function () use ($router) {
+        $router->get('/products', 'ProductController@index');
+        $router->get('/products/profitable', 'ProductController@profit');
+        $router->get('/products/expensive', 'ProductController@expensive');
+    });
 
 });
