@@ -34,6 +34,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->get('/products', 'ProductController@index');
         $router->get('/products/profitable', 'ProductController@profitable');
         $router->get('/products/expensive', 'ProductController@expensive');
+        $router->get('/products/{product}', 'ProductController@read');
     });
 
 });

@@ -60,10 +60,16 @@ class ProductController extends Controller
             ->limit(5)
             ->get();
 
-        $products = DB::select('SELECT products.*, (price-IFNULL(discount,0)) as finalprice FROM products
-ORDER BY finalprice Desc LIMIT 5');
+//        $products = DB::select('SELECT products.*, (price-IFNULL(discount,0)) as finalprice FROM products
+//ORDER BY finalprice Desc LIMIT 5');
 
         return response()->json(['data'=> $products, 'message'=>'Success'], 200);
+    }
+
+    public function read($product)
+    {
+        $product = Product::findOrFail($product);
+        return response()->json(['data'=> $product, 'message'=>'Success'], 200);
     }
 
 
@@ -92,7 +98,7 @@ ORDER BY finalprice Desc LIMIT 5');
                 $inputs['final_price'] = $inputs['price'] ;
             }
             $inputs['profit']= $inputs['final_price'] - $inputs['cost'];
-            
+
             $product = Product::create($inputs);
             //return successful response
             return response()
