@@ -167,7 +167,7 @@ class ProductController extends Controller
             $product->delete();
             //return successful response
             return response()
-                ->json(['data' => $product, 'message' => 'deleted Successfully'], 200);
+                ->json(['data' => $product, 'message' => 'deleted Successfully'], 410);
 
         } catch (\Exception $e) {
             //return error message
@@ -176,3 +176,4 @@ class ProductController extends Controller
 
     }
 }
+
