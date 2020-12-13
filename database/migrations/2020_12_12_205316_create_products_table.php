@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->double('price');
             $table->double('profit')->nullable();
             $table->double('discount')->default(0);
-            $table->tinyInteger('is_active');
+            $table->tinyInteger('is_active')->default(1)->index();
             $table->tinyInteger('d_type')->default(2); // 1 for percentage discount and 2 for fixed discount
             $table->timestamps();
         });
