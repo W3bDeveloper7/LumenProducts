@@ -35,6 +35,7 @@ class ProductController extends Controller
             $item['final_price'] = $item['price'];
             Product::create($item);
         }
+        return response()->json(['message'=>'data Retrieved successfully'], 200);
     }
 
     public function index()

@@ -30,6 +30,24 @@ class ProductTest extends TestCase
     }
 
     /**
+     * /api/admin/pull-products [GET]
+     */
+    public function testShouldReturnPullProducts(){
+        $user = User::where('email', 'ahmed@domain.com')->first();
+        $token = JWTAuth::fromUser($user);
+        //dd($token);
+        $header = [ 'HTTP_Authorization' => 'Bearer '.$token];
+        $this->get("/api/admin/pull-products", $header);
+        $this->seeStatusCode(200);
+
+        $this->seeJsonStructure(
+            []
+        );
+
+    }
+
+
+    /**
      * /products [GET]
      */
     public function testShouldReturnAllProducts(){
