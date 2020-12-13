@@ -39,9 +39,10 @@ class ProductTest extends TestCase
         $header = [ 'HTTP_Authorization' => 'Bearer '.$token];
         $this->get("/api/products", $header);
         $this->seeStatusCode(200);
-        /*$this->seeJsonStructure(['data'=>[
+        $this->seeJsonStructure(['data'=>[
             'current_page',
-            'data' => [
+            'data' => [ '*'=>
+                [
                 'id',
                 'name',
                 'cost',
@@ -53,6 +54,7 @@ class ProductTest extends TestCase
                 'created_at',
                 'updated_at',
                 'final_price'
+                ]
             ],
             'first_page_url',
             'from',
@@ -65,8 +67,75 @@ class ProductTest extends TestCase
             'to',
             'total',
 
-        ], 'message']);*/
-        $this->seeJsonStructure(['data'=>[]]);
+        ], 'message']);
+//        $this->seeJsonStructure(['data'=>[]]);
+    }
+
+    /**
+     * /products/profitable [GET]
+     */
+    public function testShouldReturnTopProfitProducts(){
+        $user = User::where('email', 'ahmed@domain.com')->first();
+        $token = JWTAuth::fromUser($user);
+        //dd($token);
+        $header = [ 'HTTP_Authorization' => 'Bearer '.$token];
+        $this->get("/api/products/profitable", $header);
+        $this->seeStatusCode(200);
+
+        $this->seeJsonStructure(
+            ['data' =>
+                ['*'=>
+                    [
+                    'id',
+                    'name',
+                    'cost',
+                    'price',
+                    'profit',
+                    'discount',
+                    'is_active',
+                    'd_type',
+                    'created_at',
+                    'updated_at',
+                    'final_price'
+                    ]
+                ], 'message'
+            ]
+        );
+
+    }
+
+
+    /**
+     * /products/expensive [GET]
+     */
+    public function testShouldReturnTopExpensiveProducts(){
+        $user = User::where('email', 'ahmed@domain.com')->first();
+        $token = JWTAuth::fromUser($user);
+        //dd($token);
+        $header = [ 'HTTP_Authorization' => 'Bearer '.$token];
+        $this->get("/api/products/expensive", $header);
+        $this->seeStatusCode(200);
+
+        $this->seeJsonStructure(
+            ['data' =>
+                [ '*'=>
+                    [
+                    'id',
+                    'name',
+                    'cost',
+                    'price',
+                    'profit',
+                    'discount',
+                    'is_active',
+                    'd_type',
+                    'created_at',
+                    'updated_at',
+                    'final_price'
+                    ]
+                ], 'message'
+            ]
+        );
+
     }
 
     /**
