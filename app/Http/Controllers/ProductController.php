@@ -32,20 +32,21 @@ class ProductController extends Controller
         foreach($items as $item)
         {
             $item['profit'] = $item['price'] - $item['cost'];
+            $item['final_price'] = $item['price'];
             Product::create($item);
         }
     }
 
     public function index()
     {
-        $products = Product::paginate(10);
+        $products = Product::IsActive()->paginate(10);
 
         return response()->json(['data'=> $products, 'message'=>'Success'], 200);
     }
 
     public function profitable()
     {
-        $products = DB::table('products')
+        $products = DB::table('products')->where('is_active', 1)
             ->orderBy('profit', 'DESC')
             ->limit(5)
             ->get();
@@ -55,7 +56,7 @@ class ProductController extends Controller
 
     public function expensive()
     {
-        $products = DB::table('products')
+        $products = DB::table('products')->where('is_active', 1)
             ->orderBy('price', 'DESC')
             ->limit(5)
             ->get();

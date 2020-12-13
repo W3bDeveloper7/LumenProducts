@@ -23,6 +23,9 @@ class Product extends Model
      */
     protected $hidden = [];
 
-
+    public function scopeIsActive($q)
+    {
+        $q->where('is_active',1);
+    }
 
 }
